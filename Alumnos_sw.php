@@ -1,5 +1,7 @@
 <?php
 require_once 'Singleton.php';
+require_once 'Alumnos.php';
+
 
 header('Content-Type: application/json ,  charset=utf-8');
 
@@ -33,11 +35,14 @@ switch ($action){
         } catch (Exception $exception) {
         $msg = $exception->getMessage();
 
-        $success=false;
+        $success=false;}
 
-        
-}
+
 break;
+case"delete":
+    Alumno::Delete($data["DNI"]);
+
+    
 }
 // Creación del array asociativo con la respuesta para convertir a JSON
 

@@ -49,9 +49,7 @@ function getAlumnos() {
                 fecha.innerHTML=response.data[i].FECHA_NACIMIENTO;
                 
                 var eliminar = document.createElement("td");
-                var eliminar_btn = document.createElement("button")
-                eliminar_btn.innerHTML='eliminar'
-                var eliminar=eliminar.appendChild(eliminar_btn);
+                eliminar.innerHTML = '<input type="submit" class="btn" value="eliminar" onclick="eliminar('+response.data[i].DNI+')">'
                 
 
                 
@@ -64,14 +62,40 @@ function getAlumnos() {
                 tr.appendChild(localidad);
                 tr.appendChild(provincia);
                 tr.appendChild(fecha);
-                tr.appendChild(eliminar_btn)
+                tr.appendChild(eliminar)
 
                 select.appendChild(tr);
             
             
         }
     });
-function eliminar(){
 
+
+    
 }
+
+function eliminar($dni) {
+    console.log($dni)
+    var url = "Alumnos_sw.php";
+    var data = {
+        action: "Delete",
+        DNI: $dni
+    };
+
+    fetch(url, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+    .then((res) => res.json())
+    .catch((error) => console.error("Error:", error))
+    .then(function (response) {
+        if (response.success) {
+            console.log("Alumno eliminado correctamente.");
+        } else {
+            console.error("Error al eliminar el alumno.");
+        }
+    });
 }

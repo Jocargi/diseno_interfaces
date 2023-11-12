@@ -1,4 +1,6 @@
-<?php 
+<?php
+require_once 'Singleton.php';
+
 class Alumno {
     public $DNI;
     public $Nombre;
@@ -20,42 +22,66 @@ class Alumno {
         $this->FechaNacimiento = $FechaNacimiento;
     }
 
-    // this hace referencia a la instancia actual 
-    // property_exists. Representa el nombre de la propiedad que se desea verificar si existe en la instancia de la clase.
     public function __get($property) {
         if (property_exists($this, $property)) {
-        return $this->$property;
+            return $this->$property;
         }
     }
 
     public function __set($property, $value) {
         if (property_exists($this, $property)) {
             $this->$property = $value;
- }
-return $this;
-}
+        }
+        return $this;
+    }
 
-public static function getObjectAlumnos() {
-    try {
-        $db=DB::getInstance();
-        
-        // Construye la consulta SQL según tus necesidades y filtros
-        $sql = "SELECT * FROM alumno" ;
+    public function GetObjectAlumnos() {
+        try {
+            $db = DB::getInstance();
 
-        $stmt = $db->prepare($sql);
-        $stmt->execute();
+            // Construye la consulta SQL según tus necesidades y filtros
+            $sql = "SELECT * FROM alumno";
 
-        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $stmt = $db->prepare($sql);
+            $stmt->execute();
 
-        return $data;
-    } catch (Exception $e) {
-        
-        throw new Exception($e->getMessage(), 1);
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            return $data;
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage(), 1);
+        }
+    }
+
+    public  static function Delete($DNI) {
+        try {
+            $db = DB::getInstance();
+
+            $sql = "DELETE FROM alumno WHERE DNI = :dni";
+
+            $stmt = $db->prepare($sql);
+
+            $stmt->bindParam(':dni', $DNI);
+
+            return $stmt->execute();
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+    }
+    public  static function Update($DNI) {
+        try {
+            $db = DB::getInstance();
+
+            $sql = "Update alumno set dni, Nombre, Apellido_1, Apellido_2, Direccion, Localidad, Provincia, Fecha_Nacimiento WHERE DNI = :dni";
+
+            $stmt = $db->prepare($sql);
+
+            $stmt->bindParam(':dni', $DNI);
+
+            return $stmt->execute();
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
     }
 }
-
-
-       
-}
-
 ?>
