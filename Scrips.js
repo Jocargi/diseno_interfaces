@@ -1,5 +1,5 @@
 function getAlumnos() {
-    // Carga de Departamentos
+    // Carga los alumnos
     var url = "Alumnos_sw.php";
     var data = { action: "get" };
     
@@ -49,7 +49,7 @@ function getAlumnos() {
                 fecha.innerHTML=response.data[i].FECHA_NACIMIENTO;
                 
                 var eliminar = document.createElement("td");
-                eliminar.innerHTML = '<input type="submit" class="btn" value="eliminar" onclick="eliminar('+response.data[i].DNI+')">'
+                eliminar.innerHTML = '<input type="submit" class="btn" value="eliminar" onclick="eliminarAlumno('+response.data[i].DNI+')">'
                 
 
                 
@@ -74,12 +74,13 @@ function getAlumnos() {
     
 }
 
-function eliminar($dni) {
-    console.log($dni)
+function eliminarAlumno(dni) {
+    console.log(dni);
     var url = "Alumnos_sw.php";
+   
     var data = {
         action: "Delete",
-        DNI: $dni
+        DNI: dni,
     };
 
     fetch(url, {
@@ -94,8 +95,12 @@ function eliminar($dni) {
     .then(function (response) {
         if (response.success) {
             console.log("Alumno eliminado correctamente.");
+          
         } else {
             console.error("Error al eliminar el alumno.");
         }
     });
 }
+
+
+
