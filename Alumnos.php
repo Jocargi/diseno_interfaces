@@ -1,68 +1,44 @@
 <?php
+
 require_once 'Singleton.php';
 
 class Alumno {
     public $DNI;
     public $Nombre;
-    public $Apellido1;
-    public $Apellido2;
+    public $Apellido_1;
+    public $Apellido_2;
     public $Direccion;
     public $Localidad;
     public $Provincia;
     public $FechaNacimiento;
 
-    public function __construct($DNI, $Nombre) {
+    public function __construct($DNI, $Nombre, $Apellido_1, $Apellido_2, $Direccion, $Localidad, $Provincia, $FechaNacimiento) {
+
         $this->DNI = $DNI;
         $this->Nombre = $Nombre;
+        $this->Apellido_1 = $Apellido_1;
+        $this->Apellido_2 = $Apellido_2;
+        $this->Direccion = $Direccion;
+        $this->Localidad = $Localidad;
+        $this->Provincia = $Provincia;
+        $this->FechaNacimiento = $FechaNacimiento;
        
 
     }
 
 
-
-    public function __get($property) {
-        if (property_exists($this, $property)) {
-            return $this->$property;
-        }
-    }
-
-    public function __set($property, $value) {
-        if (property_exists($this, $property)) {
-            $this->$property = $value;
-        }
-        return $this;
-    }
-
-    public function GetAlumnos() {
+    public   function delete() {
         try {
             $db = DB::getInstance();
-
+            $sql = "DELETE FROM alumno WHERE DNI = $this->DNI";
+            $stmt = $db->prepare($sql);
            
-            $sql = "SELECT * FROM alumno";
-
-            $stmt = $db->prepare($sql);
-            $stmt->execute();
-
-            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-            return $data;
-        } catch (Exception $e) {
-            throw new Exception($e->getMessage(), 1);
-        }
-    }
-
-    public   function Delete($DNI) {
-        try {
-            $db = DB::getInstance();
-            $sql = "DELETE FROM alumno WHERE DNI = $DNI";
-            $stmt = $db->prepare($sql);
-            echo $sql;
             return $stmt->execute();
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
     }
-    public   function Update($DNI) {
+    public   function update($DNI) {
         try {
             $db = DB::getInstance();
 
@@ -77,20 +53,33 @@ class Alumno {
             throw new Exception($e->getMessage());
         }
     }
-    public  function insert() {
-        $db = DB::getInstance();
-
-            $sql = "INSERT INTO alumnos ( dni, Nombre, Apellido_1, Apellido_2, Direccion, Localidad, Provincia, Fecha_Nacimiento )
-            VALUES (:dni, :Nombre, :Apellido_1, :Apellido_2, :Direccion, :Localidad, :Provincia, :Fecha_Nacimiento)";
-
+    public function insert() {
+        try {
+            $db = DB::getInstance();
+            $sql = "INSERT INTO alumno (DNI, Nombre, Apellido_1, Apellido_2, Direccion, Localidad, Provincia, Fecha_Nacimiento)
+            VALUES (:dni, :nombre, :Apellido_1, :Apellido_2, :direccion, :localidad, :provincia, :fechaNacimiento)";
             $stmt = $db->prepare($sql);
-
-           
-
+            $stmt->bindParam(':dni', $this->DNI);
+            $stmt->bindParam(':nombre', $this->Nombre);
+            $stmt->bindParam(':Apellido_1', $this->Apellido_1);
+            $stmt->bindParam(':Apellido_2', $this->Apellido_2);
+            $stmt->bindParam(':direccion', $this->Direccion);
+            $stmt->bindParam(':localidad', $this->Localidad);
+            $stmt->bindParam(':provincia', $this->Provincia);
+            $stmt->bindParam(':fechaNacimiento', $this->FechaNacimiento);
+            
+            return $stmt->execute();
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
     }
-
-    public static function Buscar(){
-
+    
+    
+    
     }
-}
+    
+    
+
+
+
 ?>
