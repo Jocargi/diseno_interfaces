@@ -32,7 +32,7 @@
     </table>
     <a href="Insertar.html">Insertar</a>
     <h2>actualizar</h2>
-    <form id="formulario_editar"  onload="OptenerAlumnos()">
+    <form id="formulario_editar"  onload="OptenerAlumnos(dni)">
         <label>DNI <input type="text" id="dni"></label>
         <label>Nombre <input type="text" id="nombre"></label>
         <label>Apellido_1 <input type="text" id="apellido1"></label>
@@ -41,6 +41,7 @@
         <label>Localidad <input type="text" id="localidad"></label>
         <label>Provincia <input type="text" id="provincia"></label>
         <label>Fecha de nacimiento <input type="date" id="fecha_nacimiento"></label>
+        <button type="button" id="botonA" onclick="update()">Actualizar</button>
 
      
     </form>

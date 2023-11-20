@@ -184,18 +184,26 @@ function OptenerAlumno(dni) {
 
 function update() {
     var url = "Alumnos_sw.php";
-    
-    
+
+    var dni = document.getElementById('dni').value;
+    var nombre = document.getElementById('nombre').value;
+    var apellido1 = document.getElementById('apellido1').value;
+    var apellido2 = document.getElementById('apellido2').value;
+    var direccion = document.getElementById('direccion').value;
+    var localidad = document.getElementById('localidad').value;
+    var provincia = document.getElementById('provincia').value;
+    var fecha_nacimiento = document.getElementById('fecha_nacimiento').value;
+
     var data = {
         action: "Update",
-        DNI: document.getElementById('dni').value,
-        NOMBRE: document.getElementById('nombre').value,
-        APELLIDO_1: document.getElementById('apellido1').value,
-        APELLIDO_2: document.getElementById('apellido2').value,
-        DIRECCION: document.getElementById('direccion').value,
-        LOCALIDAD: document.getElementById('localidad').value,
-        PROVINCIA: document.getElementById('provincia').value,
-        FECHA_NACIMIENTO: document.getElementById('fecha_nacimiento').value
+        DNI: dni,
+        NOMBRE: nombre,
+        APELLIDO_1: apellido1,
+        APELLIDO_2: apellido2,
+        DIRECCION: direccion,
+        LOCALIDAD: localidad,
+        PROVINCIA: provincia,
+        FECHA_NACIMIENTO: fecha_nacimiento,
     };
 
     fetch(url, {
@@ -217,4 +225,5 @@ function update() {
         }
     });
 }
+
 

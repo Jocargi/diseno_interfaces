@@ -44,10 +44,12 @@ switch ($action) {
         break;
          
         
-        
+    
     case "Update":
-       
-        break;
+            $alumno = new Alumno($DNI, $Nombre, $Apellido_1, $Apellido_2, $Direccion, $Localidad, $Provincia, $FechaNacimiento);
+            $success = $alumno->update();
+            break;
+        
     case "Insert":
         $alumnoInsert = new Alumno($DNI, $Nombre, $Apellido_1, $Apellido_2, $Direccion, $Localidad, $Provincia, $FechaNacimiento);
         $success = $alumnoInsert->insert();
