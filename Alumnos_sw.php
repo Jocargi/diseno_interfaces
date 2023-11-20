@@ -2,6 +2,7 @@
 
 require_once 'Alumnos.php';
 
+header('Content-Type: application/json');
 $data = json_decode(file_get_contents('php://input'), true);
 $action = isset($data['action']) ? $data['action'] : null;
 $DNI = isset($data['DNI']) ? $data['DNI'] : null;
@@ -15,11 +16,12 @@ $FechaNacimiento = isset($data['FECHA_NACIMIENTO']) ? $data['FECHA_NACIMIENTO'] 
 
 $success = true;
 $data = array();
-
+try{
+    $db = DB::getInstance();
 switch ($action) {
     case "get":
         try {
-            $db = DB::getInstance();
+            
             $sql = "SELECT * FROM alumno LIMIT 10";
             $stmt = $db->prepare($sql);
             $stmt->execute();
@@ -33,13 +35,28 @@ switch ($action) {
         $alumno = new Alumno($DNI, $Nombre, $Apellido_1, $Apellido_2, $Direccion, $Localidad, $Provincia, $FechaNacimiento);
         $success = $alumno->delete();
         break;
+    case "Buscar":
+        $sql = "select * from alumno where dni=:dni";
+        $stm = $db->prepare($sql);
+        $stm->bindParam(':dni', $DNI);
+        $stm->execute();
+        $data = $stm->fetchAll(PDO::FETCH_ASSOC);
+        break;
+         
+        
+        
     case "Update":
-        // Implementa la lógica de actualización si es necesario
+       
         break;
     case "Insert":
         $alumnoInsert = new Alumno($DNI, $Nombre, $Apellido_1, $Apellido_2, $Direccion, $Localidad, $Provincia, $FechaNacimiento);
         $success = $alumnoInsert->insert();
         break;
+    default:
+        $success=false;
+}} catch (Exception $exception) {
+    $msg = $exception->getMessage();
+    
 }
 
 // Lo que convierte todo a JSON

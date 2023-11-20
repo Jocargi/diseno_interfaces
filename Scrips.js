@@ -43,10 +43,20 @@ function getAlumnos() {
             fecha.innerHTML = response.data[i].FECHA_NACIMIENTO;
 
             var eliminar = document.createElement("td");
-            eliminar.innerHTML = '<input type="submit" class="btn" value="eliminar" onclick="eliminarAlumno(' + response.data[i].DNI + ')">';
+            eliminar.innerHTML = '<input type="submit"  value="eliminar" onclick="eliminarAlumno(' + response.data[i].DNI + ')">';
 
-            var editar = document.createElement("td");
-            editar.innerHTML = '<input type="submit" class="btn" value="editar" onclick="editarAlumno(' + response.data[i].DNI + ')">';
+            var editar= document.createElement("button");
+            editar.setAttribute('id', response.data[i].DNI );
+
+            editar.innerHTML = 'Editar';
+            editar.onclick = function () {
+                var dni = this.getAttribute("id");
+                var dni_ = document.getElementById("dni");
+                dni_.value = dni;
+                OptenerAlumno(dni);
+            };
+
+       
 
             tr.appendChild(dni);
             tr.appendChild(nombre);
@@ -140,3 +150,71 @@ function insert() {
         }
     });
 }
+
+function OptenerAlumno(dni) {
+    
+    var url = "Alumnos_sw.php";
+    var data = { action: "Buscar", DNI:dni};
+    console.log(data);
+
+    fetch(url,{
+        method:"POST",
+        body:JSON.stringify(data),
+        headers:{
+            "Content-Type":"application/json",
+        },
+    })
+    .then((res)=>res.json())
+    
+    .then((response)=>{
+        console.log(response)
+      document.getElementById("nombre").value= response.data[0].NOMBRE
+      document.getElementById("apellido1").value = response.data[0].APELLIDO_1;
+      document.getElementById("apellido2").value = response.data[0].APELLIDO_2
+      document.getElementById("direccion").value = response.data[0].DIRECCION;
+      document.getElementById("localidad").value = response.data[0].LOCALIDAD;
+      document.getElementById("provincia").value = response.data[0].PROVINCIA;
+      document.getElementById("fecha_nacimiento").value = response.data[0].FECHA_NACIMIENTO;
+    })
+    .catch((error) => console.error("Error",error))
+}
+
+
+
+
+function update() {
+    var url = "Alumnos_sw.php";
+    
+    
+    var data = {
+        action: "Update",
+        DNI: document.getElementById('dni').value,
+        NOMBRE: document.getElementById('nombre').value,
+        APELLIDO_1: document.getElementById('apellido1').value,
+        APELLIDO_2: document.getElementById('apellido2').value,
+        DIRECCION: document.getElementById('direccion').value,
+        LOCALIDAD: document.getElementById('localidad').value,
+        PROVINCIA: document.getElementById('provincia').value,
+        FECHA_NACIMIENTO: document.getElementById('fecha_nacimiento').value
+    };
+
+    fetch(url, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+    .then((res) => res.json())
+    .catch((error) => {
+        console.error("Error:", error);
+    })
+    .then(function(response) {
+        if (response && response.success) {
+            console.log("Alumno actualizado correctamente.");
+        } else {
+            console.error("Error al actualizar el alumno.");
+        }
+    });
+}
+

@@ -21,6 +21,7 @@
             <th>Provincia</th>
             <th>Fecha de nacimiento</th>
             <th>Eliminar</th>
+            <th>Actualizar</th>
         </thead>
         <tbody id="tbody">
            
@@ -30,6 +31,20 @@
 
     </table>
     <a href="Insertar.html">Insertar</a>
+    <h2>actualizar</h2>
+    <form id="formulario_editar"  onload="OptenerAlumnos()">
+        <label>DNI <input type="text" id="dni"></label>
+        <label>Nombre <input type="text" id="nombre"></label>
+        <label>Apellido_1 <input type="text" id="apellido1"></label>
+        <label>Apellido_2 <input type="text" id="apellido2"></label>
+        <label>Direccion <input type="text" id="direccion"></label>
+        <label>Localidad <input type="text" id="localidad"></label>
+        <label>Provincia <input type="text" id="provincia"></label>
+        <label>Fecha de nacimiento <input type="date" id="fecha_nacimiento"></label>
+
+     
+    </form>
+ 
     
 </body>
 </html>
