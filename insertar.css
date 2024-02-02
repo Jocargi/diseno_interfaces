@@ -1,0 +1,11 @@
+#paginador {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+#formulario_paginador {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+}

@@ -3,15 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script  type="text/javascript" src="Scrips.js"></script>
-   
-
+    <title>Alumnos</title>
+    <script type="text/javascript" src="Scrips.js"></script>
+    <link rel="stylesheet" href="index.css">
 </head>
-<body onload="getAlumnos()" >
+<body onload="getAlumnos(); totalRegistros()">
+    <h1>Alumnos</h1>
     <table border="5px">
         <thead>
-      
             <th>DNI</th>
             <th>Nombre</th>
             <th>Apellido1</th>
@@ -20,19 +19,38 @@
             <th>Localidad</th>
             <th>Provincia</th>
             <th>Fecha de nacimiento</th>
-            <th>Eliminar</th>
-            <th>Actualizar</th>
+            <th>Eliminar/Actualizar</th>
         </thead>
         <tbody id="tbody">
-           
-            
         </tbody>
-        
-
     </table>
+
+    <div id="paginador">
+        <div id="TotalR"></div>
+        <div id="TotalPaginas"></div>
+        
+        
+        <form id="formulario_paginador">
+            <button type="button" id="primera" onclick="paginador(1)">primera</button>
+            <button type="button" id="anterior" onclick="paginador(2)">anterior</button>
+            <input type="number" id="pagina" name="pagina" value="1"> 
+            <button type="button" id="siguiente" onclick="paginador(3)">siguiente</button>
+            <button type="button" id="ultima" onclick="paginador(4)">ultima</button>
+            <h2>Buscar</h2>
+                <label>DNI <input type="text" id="dniBuscar"></label>
+                <label>Nombre <input type="text" id="nombreBuscar"></label>
+                <button type="button" id="botonB" onclick="buscarAlumnos()">Buscar</button>
+     
+        </form>
+    </div>
+
+  
+
+
     <a href="Insertar.html">Insertar</a>
-    <h2>actualizar</h2>
-    <form id="formulario_editar"  onload="OptenerAlumnos(dni)">
+
+    <h2>Actualizar</h2>
+    <form id="formulario_editar" onload="OptenerAlumnos(dni)">
         <label>DNI <input type="text" id="dni"></label>
         <label>Nombre <input type="text" id="nombre"></label>
         <label>Apellido_1 <input type="text" id="apellido1"></label>
@@ -42,10 +60,6 @@
         <label>Provincia <input type="text" id="provincia"></label>
         <label>Fecha de nacimiento <input type="date" id="fecha_nacimiento"></label>
         <button type="button" id="botonA" onclick="update()">Actualizar</button>
-
-     
     </form>
- 
-    
 </body>
 </html>

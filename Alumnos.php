@@ -26,11 +26,26 @@ class Alumno {
 
     }
 
+    public function getCount() {
+        try {
+            $db = DB::getInstance();
+            $sql = "select count(*) from alumno";
+            $stmt = $db->prepare($sql);
+            $resultado = $stmt->execute();
+            if(!$resultado) {
+                return false;
+            }
+            return $stmt->fetchAll();
+        }catch(PDOException $e) {
+            return false;
+        }
+    }
+
 
     public   function delete() {
         try {
             $db = DB::getInstance();
-            $sql = "DELETE FROM alumno WHERE DNI = $this->DNI";
+            $sql = "DELETE FROM alumno WHERE DNI ='$this->DNI'";
             $stmt = $db->prepare($sql);
            
             return $stmt->execute();
@@ -62,7 +77,35 @@ class Alumno {
             throw new Exception($e->getMessage());
         }
     }
+    public function buscar() {
+        try {
+            $db = DB::getInstance();   
+            if (!empty($this->DNI) || !empty($this->Nombre)) {
+                $sql = "SELECT * FROM alumno WHERE dni LIKE :dni AND nombre LIKE :nombre LIMIT 10";
+                $dniParam = "%" . $this->DNI . "%";
+                $nombreParam = "%" . $this->Nombre . "%";
+           
+            } else {
+                return [];
+            }
+            $stmt = $db->prepare($sql);
+            if (!empty($dniParam)) {
+                $stmt->bindParam(':dni', $dniParam);
+            }
     
+            if (!empty($nombreParam)) {
+                $stmt->bindParam(':nombre', $nombreParam);
+            }
+            $stmt->execute();
+            $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+            
+            return $resultados;
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+    }
+
     
     public function insert() {
         try {
@@ -84,13 +127,6 @@ class Alumno {
             return $e->getMessage();
         }
     }
-    
-    
-    
-    }
-    
-    
 
-
-
+}
 ?>
